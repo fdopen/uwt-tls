@@ -1,0 +1,17 @@
+.PHONY: clean distclean doc lib
+.DEFAULT: lib
+
+section
+	FILES=x509_uwt tls_uwt
+	Repeat_targets($(FILES))
+	UWTTLS=	$(MOCamlLibrary $(PROJNAME), $(FILES))
+	x=$(CreateDoc uwt-tls,html,$(UWTTLS))
+	lib:: $(UWTTLS)
+	Install_helper($(PROJNAME),$(UWTTLS),$(EMPTY))
+
+clean::
+	clean-helper()
+	rm -f oUnit*.log setup.data setup.log *.tar*
+
+distclean:: clean
+	rm -f *~ .*~ setup.ml _oasis *.xz *.gz

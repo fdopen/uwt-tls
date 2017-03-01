@@ -1,0 +1,42 @@
+.PHONY: clean all distclean install uninstall lib examples test
+
+VERSION=0.0.1
+PROJNAME= uwt-tls
+USE_OCAMLFIND= true
+BYTE_ENABLED=	true
+OCAMLPACKS+= x509 tls lwt uwt.ext cstruct uwt-random.nocrypto-entropy
+
+include OMakeIncludes
+
+if $(or $(lt $(OCAMLC_VERSION_MAJOR),4),$(and $(eq 4,$(OCAMLC_VERSION_MAJOR)),$(lt $(OCAMLC_VERSION_MINOR),3)))
+	OCAMLFINDFLAGS+= -open Result
+	export
+
+static.=
+	if $(not $(equal $(getenv DEBUG_MY_CODE, $(EMPTY)), $(EMPTY)))
+		export
+		OCAMLFLAGS= -g -bin-annot -safe-string -w A-4-48 #-32-33-37-39-48-4 -warn-error A-32-33-37-39-48-4
+	else
+		export
+		# omake sets OCAMLFLAGS to '-warn-error A' by default which usually
+		# breaks compilation every time a new ocaml version is released
+		OCAMLFLAGS= -g -bin-annot -safe-string
+	export OCAMLFLAGS
+
+.DEFAULT: lib 
+.SUBDIRS: src examples
+
+all:: lib
+
+clean::
+	clean-helper()
+	rm -f oUnit*.log setup.data setup.log
+
+distclean:: clean
+	rm -f *~ .*~ setup.ml _oasis *.xz *.gz
+
+.PHONY: echo-pkg
+echo-pkg:
+	@echo $(PROJNAME)-$(VERSION)
+
+.DEFAULT: all

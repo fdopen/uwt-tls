@@ -1,0 +1,13 @@
+PRJ uwt-tls
+PKG lwt
+PKG lwt.syntax
+PKG uwt
+PKG nocrypto
+PKG tls
+PKG x509
+PKG cstruct
+PKG uwt-random.nocrypto-entropy
+S src
+B src
+#S test
+#B test

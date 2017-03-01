@@ -1,0 +1,8 @@
+version = "0.0.1"
+description = "tls support for uwt"
+requires = "x509 tls uwt.ext cstruct uwt-random.nocrypto-entropy"
+archive(byte) = "uwt-tls.cma"
+archive(byte, plugin) = "uwt-tls.cma"
+archive(native) = "uwt-tls.cmxa"
+archive(native, plugin) = "uwt-tls.cmxs"
+exists_if = "uwt-tls.cma"

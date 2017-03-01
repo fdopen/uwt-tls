@@ -1,0 +1,30 @@
+.PHONY: all examples test
+.DEFAULT: examples
+
+example(f)=
+	OCAMLINCLUDES[]+= ../src
+	OCAML_LIBS+= ../src/uwt-tls
+	files=$(f) ex_common
+	$(f).opt: ../src/uwt-tls.cmxa
+	$(f).run: ../src/uwt-tls.cma
+	Repeat_targets($(files))
+	TEST_PROG=$(OCamlProgram $(f),$(files))
+	examples:: $(TEST_PROG)
+	clean::
+		rm -f $(f)$(EXE)
+
+example(http_client)
+example(echo_server)
+example(echo_client)
+
+test: http_client$(EXE)
+ ./http_client$(EXE) google.com 443 NONE
+
+clean::
+	clean-helper()
+	rm -f oUnit*.log setup.data setup.log *.tar*
+
+distclean:: clean
+	rm -f *~ .*~
+
+all: examples

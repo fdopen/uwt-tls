@@ -1,0 +1,25 @@
+opam-version: "1.2"
+name: "uwt-tls"
+version: "0.0.1"
+maintainer: "andreashauptmann@t-online.de"
+authors: [ "andreashauptmann@t-online.de" ]
+homepage: "https://github.com/fdopen/uwt-tls"
+dev-repo: "https://github.com/fdopen/uwt-tls.git"
+bug-reports: "https://github.com/fdopen/uwt-tls/issues"
+build: [["omake" "lib"]]
+install: [["omake" "install"]]
+build-test: [["omake" "test"]]
+remove: [["ocamlfind" "remove" "uwt-tls"]]
+available: [ocaml-version >= "4.02.1"]
+license: "BSD2"
+depends: [
+  "uwt" { >= "0.0.4"}
+  "lwt"
+  "tls" { >= "0.7.0" & < "0.9" }
+  "x509" { >= "0.5.0" & < "0.6" }
+  "nocrypto" { >= "0.5.0" & < "0.6" }
+  "cstruct"
+  "uwt-random"
+  "ocamlfind" {build}
+  "omake" {build}
+]
