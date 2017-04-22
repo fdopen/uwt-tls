@@ -2,6 +2,7 @@
 .DEFAULT: examples
 
 example(f)=
+	OCAML_BYTE_LINK_FLAGS=
 	OCAMLINCLUDES[]+= ../src
 	OCAML_LIBS+= ../src/uwt-tls
 	files=$(f) ex_common
