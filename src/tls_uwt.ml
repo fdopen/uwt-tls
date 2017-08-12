@@ -55,7 +55,14 @@ let resolve host service =
   | Ok []    ->
     let msg = Printf.sprintf "no address for %s:%s" host service in
     fail (Invalid_argument msg)
-  | Ok (ai::_) -> return ai.Uwt.Dns.ai_addr
+  | Ok ((ai::_) as l) ->
+    let x =
+      try
+        List.find (fun x -> x.Unix.ai_family = Unix.PF_INET) l
+      with
+      | Not_found -> ai
+    in
+    return x.Unix.ai_addr
 
 module Lwt_cs = struct
 
