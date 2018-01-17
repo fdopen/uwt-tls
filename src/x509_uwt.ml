@@ -99,7 +99,14 @@ let certs_of_pem_dir path =
   >|= List.concat
 
 let authenticator param =
-  let now = Unix.gettimeofday () in
+  let now =
+    if Sys.win32 then
+      match Ptime.of_float_s (Unix.gettimeofday ()) with
+      | None -> failwith "invalid time"
+      | Some x -> x
+    else
+      Ptime_clock.now ()
+  in
   let of_cas cas =
     X509.Authenticator.chain_of_trust ~time:now cas
   and dotted_hex_to_cs hex =

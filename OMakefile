@@ -4,7 +4,7 @@ VERSION=0.0.1
 PROJNAME= uwt-tls
 USE_OCAMLFIND= true
 BYTE_ENABLED=	true
-OCAMLPACKS+= x509 tls lwt uwt.ext cstruct uwt-random.nocrypto-entropy
+OCAMLPACKS+= x509 tls lwt uwt.ext cstruct uwt-random.nocrypto-entropy ptime.clock.os
 
 include OMakeIncludes
 
